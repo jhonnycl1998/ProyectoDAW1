@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: turismo
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/turismo
+    username: postgres
+    password: I202334107
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8080
+  address: 0.0.0.0
