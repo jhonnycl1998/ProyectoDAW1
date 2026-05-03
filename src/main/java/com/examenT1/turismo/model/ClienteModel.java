@@ -1,5 +1,5 @@
 package com.examenT1.turismo.model;
-
+import org.springframework.data.domain.Sort;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class ClienteModel implements ClienteUseCase{
 
     @Override
     public List<ClienteDTO> listarClientes() {
-    	return clienteRepository.findAll()
+    	return clienteRepository.findAll(Sort.by("idCliente"))
     	        .stream()
     	        .map(this::convertirADTO)
     	        .toList();

@@ -1,7 +1,7 @@
 package com.examenT1.turismo.model;
 
 import java.util.List;
-
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.examenT1.turismo.bean.dto.TourDTO;
@@ -38,7 +38,7 @@ public class TourModel implements TourUseCase{
 
     @Override
     public List<TourDTO> listarTours() {
-        return tourRepository.findAll()
+        return tourRepository.findAll(Sort.by("idTour"))
                 .stream()
                 .map(this::convertirADTO)
                 .toList();

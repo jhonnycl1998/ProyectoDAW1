@@ -8,6 +8,7 @@ import com.examenT1.turismo.bean.dto.TrabajadorDTO;
 import com.examenT1.turismo.bean.entity.Trabajador;
 import com.examenT1.turismo.bean.entity.Usuario;
 import com.examenT1.turismo.persistence.TrabajadorRepository;
+import com.examenT1.turismo.persistence.UsuarioRepository;
 import com.examenT1.turismo.usecase.TrabajadorUseCase;
 
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,15 @@ import lombok.RequiredArgsConstructor;
 public class TrabajadorModel implements TrabajadorUseCase{
 	
 	private final TrabajadorRepository trabajadorRepository;
+	private final UsuarioRepository usuarioRepository;
 
 	@Override
 	public TrabajadorDTO registrarTrabajador(TrabajadorDTO trabajadorDTO) {
+		
+        if (usuarioRepository.existsByUsuario(trabajadorDTO.getUsuario())) {
+        	throw new RuntimeException("USUARIO_EXISTE");
+        }
+
 		 Usuario usuario = Usuario.builder()
 	                .usuario(trabajadorDTO.getUsuario())
 	                .contrasena(trabajadorDTO.getContrasena())

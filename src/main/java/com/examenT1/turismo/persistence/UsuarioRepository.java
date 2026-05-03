@@ -10,5 +10,6 @@ import com.examenT1.turismo.bean.entity.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Integer>{
 	Optional<Usuario> findByUsuarioAndContrasena(String usuario, String contrasena);
+    boolean existsByUsuario(String usuario);
 
 }

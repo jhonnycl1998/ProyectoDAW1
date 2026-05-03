@@ -1,5 +1,5 @@
 package com.examenT1.turismo.model;
-
+import org.springframework.data.domain.Sort;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class ReservaModel implements ReservaUseCase
 
 	@Override
 	public List<ReservaDTO> listarReservas() {
-		return reservaRepository.findAll()
+		return reservaRepository.findAll(Sort.by("idReserva"))
 				.stream()
 				.map(this::convertirADTO)
 				.toList();
@@ -84,11 +84,25 @@ public class ReservaModel implements ReservaUseCase
 
 	@Override
 	public boolean eliminarReserva(Integer idReserva) {
-		if(!reservaRepository.existsById(idReserva)) {
-			return false;
-		}
-		reservaRepository.deleteById(idReserva);
-		return true;
+
+	    Reserva reserva = reservaRepository.findById(idReserva).orElse(null);
+
+	    if (reserva == null) {
+	        return false;
+	    }
+
+	    Tour tour = reserva.getTour();
+
+	    
+	    tour.setAsientosDisponibles(
+	        tour.getAsientosDisponibles() + reserva.getAsientosReservados()
+	    );
+
+	    tourRepository.save(tour);
+
+	    reservaRepository.delete(reserva);
+
+	    return true;
 	}
 
 	@Override
